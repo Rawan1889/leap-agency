@@ -48,13 +48,14 @@ class HeroParticles {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setClearColor(0x000000, 0);
 
-    /* Responsive logo scale — driven by canvas width:
-       ≥1200px → 1.0 (full)  |  768–1199 → 0.65 (iPad)  |  <768 → 0.40 (mobile) */
+    /* Responsive logo scale — use window.innerWidth (always reliable at init,
+       unlike canvas.clientWidth which may be 0 before layout completes)
+       ≥1200px → 1.0  |  900-1199 → 0.80  |  600-899 → 0.62  |  <600 → 0.42 */
     this.logoScale = this._computeLogoScale();
   }
 
   _computeLogoScale() {
-    const w = this.canvas.clientWidth;
+    const w = window.innerWidth;
     if (w >= 1200) return 1.0;
     if (w >= 900)  return 0.80;
     if (w >= 600)  return 0.62;
@@ -190,11 +191,14 @@ class HeroParticles {
       this.logoTgt[i3 + 1] = ly;
       this.logoTgt[i3 + 2] = lz;
 
-      /* ─ Home: scatter range also scales so idle field matches ─ */
-      const scatter = 200 * this.logoScale;
-      const hx = (Math.random() - 0.5) * scatter;
-      const hy = (Math.random() - 0.5) * (scatter * 0.77);
-      const hz = (Math.random() - 0.5) * (60 * this.logoScale);
+      /* ─ Home: scatter uses original desktop range (220×170) scaled down
+         for smaller screens — preserves the full idle cloud on laptop ─ */
+      const scatterX = 220 * this.logoScale;
+      const scatterY = 170 * this.logoScale;
+      const scatterZ =  60 * this.logoScale;
+      const hx = (Math.random() - 0.5) * scatterX;
+      const hy = (Math.random() - 0.5) * scatterY;
+      const hz = (Math.random() - 0.5) * scatterZ;
       this.homeTgt[i3]     = hx;
       this.homeTgt[i3 + 1] = hy;
       this.homeTgt[i3 + 2] = hz;
@@ -318,7 +322,9 @@ class HeroParticles {
     const pLen = Math.floor(pool.length / 3);
     const N    = this.N;
     const s    = this.logoScale;
-    const scatter = 200 * s;
+    const scatterX = 220 * s;  // original desktop range
+    const scatterY = 170 * s;
+    const scatterZ =  60 * s;
 
     for (let i = 0; i < N; i++) {
       const i3 = i * 3;
@@ -330,9 +336,9 @@ class HeroParticles {
       this.logoTgt[i3 + 2] = pool[li + 2] * s;
 
       // Rescale home targets
-      this.homeTgt[i3]     = (Math.random() - 0.5) * scatter;
-      this.homeTgt[i3 + 1] = (Math.random() - 0.5) * (scatter * 0.77);
-      this.homeTgt[i3 + 2] = (Math.random() - 0.5) * (60 * s);
+      this.homeTgt[i3]     = (Math.random() - 0.5) * scatterX;
+      this.homeTgt[i3 + 1] = (Math.random() - 0.5) * scatterY;
+      this.homeTgt[i3 + 2] = (Math.random() - 0.5) * scatterZ;
     }
   }
 
