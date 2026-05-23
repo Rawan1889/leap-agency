@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Leap Agency — Architecture & Design Studio crafting spaces that redefine human experience through precision, vision, and artistry.">
+  <meta property="og:title" content="Leap Agency — Architecture Studio">
+  <meta property="og:description" content="Where architecture meets art. Premium design studio specializing in iconic spaces.">
+  <title>Leap Agency — Architecture Studio</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="loading">
+
+  <!-- ══════════════════════════════════════════
+       CUSTOM CURSOR
+  ══════════════════════════════════════════ -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ══════════════════════════════════════════
+       GLOBAL SCROLL FLOW CANVAS
+       Fixed overlay — particles river through all sections
+  ══════════════════════════════════════════ -->
+  <canvas id="flow-canvas" aria-hidden="true"></canvas>
+
+  <!-- ══════════════════════════════════════════
+       LOADER
+  ══════════════════════════════════════════ -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-logo">LEAP DESIGN</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="loader-count">0%</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════ -->
+  <nav id="nav" aria-label="Primary navigation">
+    <a href="#hero" class="nav-logo" id="nav-logo">LEAP<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about" id="nav-about">About</a></li>
+      <li><a href="#services" id="nav-services">Services</a></li>
+      <li><a href="#projects" id="nav-projects">Projects</a></li>
+      <li><a href="#process" id="nav-process">Process</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta" id="nav-contact">Let's Talk</a>
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" id="nav-hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       MOBILE MENU OVERLAY
+  ══════════════════════════════════════════ -->
+  <div id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+    <button id="mobile-menu-close" aria-label="Close menu">&#10005;</button>
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#about"    class="mobile-link" id="mob-about">About</a>
+      <a href="#services" class="mobile-link" id="mob-services">Services</a>
+      <a href="#projects" class="mobile-link" id="mob-projects">Projects</a>
+      <a href="#process"  class="mobile-link" id="mob-process">Process</a>
+      <a href="#contact"  class="mobile-link mobile-link--cta" id="mob-contact">Let's Talk</a>
+    </nav>
+    <div class="mobile-menu-footer">
+      <span>Leap Agency</span>
+      <span>© 2024</span>
+    </div>
+  </div>
+  <div id="mobile-menu-backdrop"></div>
+
+  <!-- ══════════════════════════════════════════
+       HERO SECTION
+  ══════════════════════════════════════════ -->
+  <section id="hero" aria-label="Hero">
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Single-point origin glow — shown when particles are collapsed -->
+    <div id="particle-origin" aria-hidden="true">
+      <div class="origin-core"></div>
+      <div class="origin-ring r1"></div>
+      <div class="origin-ring r2"></div>
+    </div>
+
+    <!-- Hint label: fades once interaction starts -->
+    <div id="particle-hint" aria-hidden="true">Move cursor to reveal</div>
+
+    <div class="hero-content">
+
+
+
+      <h1 class="hero-title">
+        <span class="line"><span class="line-inner">Where Space</span></span>
+        <span class="line"><span class="line-inner"><em>Becomes</em></span></span>
+        <span class="line"><span class="line-inner">Experience</span></span>
+      </h1>
+
+      <p class="hero-desc">
+        Leap Agency is a premium architecture studio crafting iconic spaces that transcend the ordinary — merging precision engineering with visionary artistry.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary" id="hero-view-work">
+          <span>View Our Work</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#about" class="btn-ghost" id="hero-learn-more">
+          Our Studio
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span class="scroll-label">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
+    <div class="hero-stats" aria-label="Studio statistics">
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-val="18" data-suffix="+">18+</div>
+        <div class="hero-stat-label">Years of Practice</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-val="240" data-suffix="+">240+</div>
+        <div class="hero-stat-label">Projects Delivered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-val="32" data-suffix="">32</div>
+        <div class="hero-stat-label">Global Awards</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ABOUT SECTION
+  ══════════════════════════════════════════ -->
+  <section id="about" class="section-pad" aria-labelledby="about-heading">
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="section-label">Our Studio</p>
+        <h2 class="section-headline" id="about-heading">
+          Built on Bold<br><em>Vision</em>
+        </h2>
+        <p class="section-body" style="margin-top: 2rem;">
+          Founded in 2006, Leap Agency operates at the intersection of art and engineering. We believe every building is an opportunity to elevate human experience — to create spaces that inspire, endure, and resonate across generations.
+        </p>
+        <p class="section-body" style="margin-top: 1.5rem;">
+          From intimate residences to landmark civic structures, our multidisciplinary team brings curiosity, precision, and a relentless pursuit of excellence to every commission.
+        </p>
+        <a href="#contact" class="btn-ghost" style="margin-top: 2.5rem; display: inline-flex; gap: 0.5rem;" id="about-contact-link">
+          Work with us
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="about-right">
+        <p class="section-body" style="font-size: 1.1rem; color: var(--white);">
+          "Architecture is not just shelter — it is the stage on which human life unfolds. We design that stage with extraordinary care."
+        </p>
+
+        <div class="about-pillars">
+          <div class="pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/>
+            </svg>
+            <div class="pillar-title">Precision</div>
+            <p class="pillar-text">Every detail is intentional. We obsess over proportion, material, and light.</p>
+          </div>
+          <div class="pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="9"/><path d="M12 3v9l5 3"/>
+            </svg>
+            <div class="pillar-title">Endurance</div>
+            <p class="pillar-text">We build for generations — structures that age gracefully and grow more meaningful.</p>
+          </div>
+          <div class="pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <div class="pillar-title">Innovation</div>
+            <p class="pillar-text">We embrace new technologies and methods while honoring timeless principles.</p>
+          </div>
+          <div class="pillar">
+            <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+            </svg>
+            <div class="pillar-title">Collaboration</div>
+            <p class="pillar-text">Your vision drives ours. Deep partnership from brief to ribbon-cutting.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       SERVICES SECTION
+  ══════════════════════════════════════════ -->
+  <section id="services" class="section-pad" aria-labelledby="services-heading">
+    <div class="services-header">
+      <div>
+        <p class="section-label">What We Do</p>
+        <h2 class="section-headline" id="services-heading">
+          Our<br><em>Expertise</em>
+        </h2>
+      </div>
+      <p class="section-body" style="text-align: right; max-width: 380px;">
+        A full spectrum of design services — from the first sketch to the final finish, we guide every phase with mastery.
+      </p>
+    </div>
+
+    <div class="services-grid" role="list">
+
+      <article class="service-card" role="listitem">
+        <span class="service-number">01</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polygon points="3 21 12 3 21 21 12 16.5"/>
+        </svg>
+        <h3 class="service-title">Architectural Design</h3>
+        <p class="service-desc">Conceptual through construction documentation. We create buildings that command presence and perform beautifully for decades.</p>
+        <div class="service-tags">
+          <span class="service-tag">Concept</span>
+          <span class="service-tag">Schematic</span>
+          <span class="service-tag">Documentation</span>
+        </div>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <span class="service-number">02</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <h3 class="service-title">Interior Architecture</h3>
+        <p class="service-desc">Curated environments where material, light, and proportion converge to create spaces of profound atmosphere and functionality.</p>
+        <div class="service-tags">
+          <span class="service-tag">Residential</span>
+          <span class="service-tag">Commercial</span>
+          <span class="service-tag">Hospitality</span>
+        </div>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <span class="service-number">03</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>
+        <h3 class="service-title">Urban Planning</h3>
+        <p class="service-desc">Master plans that shape communities — thoughtful density, vibrant public realms, and infrastructure that endures.</p>
+        <div class="service-tags">
+          <span class="service-tag">Masterplan</span>
+          <span class="service-tag">Mixed-Use</span>
+          <span class="service-tag">Transit</span>
+        </div>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <span class="service-number">04</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <h3 class="service-title">Sustainable Design</h3>
+        <p class="service-desc">Net-zero ambition with no aesthetic compromise. We integrate passive systems, renewable energy, and biophilic principles seamlessly.</p>
+        <div class="service-tags">
+          <span class="service-tag">LEED</span>
+          <span class="service-tag">Passive House</span>
+          <span class="service-tag">Biophilic</span>
+        </div>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <span class="service-number">05</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        </svg>
+        <h3 class="service-title">Digital Visualization</h3>
+        <p class="service-desc">Cinematic 3D renders and immersive VR walkthroughs that communicate the full power of a design before a single stone is laid.</p>
+        <div class="service-tags">
+          <span class="service-tag">3D Render</span>
+          <span class="service-tag">VR/AR</span>
+          <span class="service-tag">Animation</span>
+        </div>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <span class="service-number">06</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+        </svg>
+        <h3 class="service-title">Project Management</h3>
+        <p class="service-desc">End-to-end delivery management. We coordinate consultants, contractors, and procurement with rigorous discipline.</p>
+        <div class="service-tags">
+          <span class="service-tag">Procurement</span>
+          <span class="service-tag">QA/QC</span>
+          <span class="service-tag">Handover</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PROJECTS SECTION
+  ══════════════════════════════════════════ -->
+  <section id="projects" class="section-pad" aria-labelledby="projects-heading">
+    <div class="projects-header">
+      <div>
+        <p class="section-label">Selected Work</p>
+        <h2 class="section-headline" id="projects-heading">
+          Our<br><em>Projects</em>
+        </h2>
+      </div>
+      <div class="projects-filter" role="group" aria-label="Filter projects">
+        <button class="filter-btn active" id="filter-all">All</button>
+        <button class="filter-btn" id="filter-residential">Residential</button>
+        <button class="filter-btn" id="filter-commercial">Commercial</button>
+        <button class="filter-btn" id="filter-civic">Civic</button>
+      </div>
+    </div>
+
+    <div class="projects-showcase">
+
+      <article class="project-card" aria-label="Obsidian Pavilion project">
+        <img class="project-img" src="assets/project1.png" alt="Obsidian Pavilion — geometric concrete and glass building at night" loading="lazy">
+        <div class="project-info">
+          <span class="project-type">Commercial · 2024</span>
+          <h3 class="project-name">Obsidian Pavilion</h3>
+          <p class="project-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Dubai, UAE
+          </p>
+        </div>
+        <div class="project-arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </article>
+
+      <article class="project-card" aria-label="The Cascade Residence project">
+        <img class="project-img" src="assets/project2.png" alt="The Cascade Residence — sculptural staircase interior" loading="lazy">
+        <div class="project-info">
+          <span class="project-type">Residential · 2023</span>
+          <h3 class="project-name">The Cascade</h3>
+          <p class="project-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Beirut, Lebanon
+          </p>
+        </div>
+        <div class="project-arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </article>
+
+      <article class="project-card" aria-label="Apex Tower project">
+        <img class="project-img" src="assets/project3.png" alt="Apex Tower — futuristic glass skyscraper at twilight" loading="lazy">
+        <div class="project-info">
+          <span class="project-type">Civic · 2022</span>
+          <h3 class="project-name">Apex Tower</h3>
+          <p class="project-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Istanbul, Turkey
+          </p>
+        </div>
+        <div class="project-arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </article>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 4rem;">
+      <a href="#contact" class="btn-ghost" id="view-all-projects" style="display: inline-flex; gap: 0.5rem; font-size: 0.9rem;">
+        See all 47 Projects
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STATS BAND
+  ══════════════════════════════════════════ -->
+  <div id="stats-band" aria-label="Studio achievements">
+    <div class="stats-band-inner">
+      <div class="stat-band-item">
+        <span class="stat-band-num" data-count="18" data-suffix="+">18+</span>
+        <span class="stat-band-label">Years Experience</span>
+      </div>
+      <div class="stat-band-sep"></div>
+      <div class="stat-band-item">
+        <span class="stat-band-num" data-count="240" data-suffix="+">240+</span>
+        <span class="stat-band-label">Projects Completed</span>
+      </div>
+      <div class="stat-band-sep"></div>
+      <div class="stat-band-item">
+        <span class="stat-band-num" data-count="32" data-suffix="">32</span>
+        <span class="stat-band-label">Design Awards</span>
+      </div>
+      <div class="stat-band-sep"></div>
+      <div class="stat-band-item">
+        <span class="stat-band-num" data-count="14" data-suffix="">14</span>
+        <span class="stat-band-label">Countries</span>
+      </div>
+      <!-- Duplicate for seamless loop appearance -->
+      <div class="stat-band-sep"></div>
+      <div class="stat-band-item">
+        <span class="stat-band-num">18+</span>
+        <span class="stat-band-label">Years Experience</span>
+      </div>
+      <div class="stat-band-sep"></div>
+      <div class="stat-band-item">
+        <span class="stat-band-num">240+</span>
+        <span class="stat-band-label">Projects Completed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PROCESS SECTION
+  ══════════════════════════════════════════ -->
+  <section id="process" class="section-pad" aria-labelledby="process-heading">
+    <div class="process-grid">
+      <div class="process-sticky">
+        <p class="section-label">How We Work</p>
+        <h2 class="section-headline" id="process-heading">
+          Our<br><em>Process</em>
+        </h2>
+        <p class="section-body" style="margin-top: 2rem;">
+          A structured yet fluid approach that keeps your vision central while we navigate complexity with precision and craft.
+        </p>
+        <a href="#contact" class="btn-ghost" style="margin-top: 2.5rem; display: inline-flex; gap: 0.5rem;" id="process-start-link">
+          Start a project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="process-steps">
+
+        <div class="process-step">
+          <div class="process-step-num">01</div>
+          <div class="process-step-content">
+            <h3 class="process-step-title">Discovery & Brief</h3>
+            <p class="process-step-text">
+              We begin by listening. Deep conversations uncover not just what you want to build, but why. We research site, context, climate, and culture to establish a project framework that guides every decision.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="process-step-num">02</div>
+          <div class="process-step-content">
+            <h3 class="process-step-title">Concept Design</h3>
+            <p class="process-step-text">
+              From the brief emerges a singular idea — a design concept that is spatially compelling, structurally logical, and emotionally resonant. We explore multiple directions before refining to the strongest solution.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="process-step-num">03</div>
+          <div class="process-step-content">
+            <h3 class="process-step-title">Design Development</h3>
+            <p class="process-step-text">
+              Concepts evolve into resolved designs. Materials are selected, structural systems integrated, and building performance validated. Every detail is considered against the whole.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="process-step-num">04</div>
+          <div class="process-step-content">
+            <h3 class="process-step-title">Documentation</h3>
+            <p class="process-step-text">
+              We produce a complete set of construction drawings and specifications — a precise roadmap that ensures the design is built exactly as intended, with quality at every level.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="process-step-num">05</div>
+          <div class="process-step-content">
+            <h3 class="process-step-title">Construction & Delivery</h3>
+            <p class="process-step-text">
+              We remain engaged through construction, conducting regular site visits and collaborating closely with the build team. Our involvement continues until the keys are handed over — and beyond.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       TEAM SECTION
+  ══════════════════════════════════════════ -->
+  <section id="team" class="section-pad" aria-labelledby="team-heading">
+    <div class="team-header">
+      <p class="section-label">The People</p>
+      <h2 class="section-headline" id="team-heading">Meet the <em>Minds</em></h2>
+      <p class="section-body" style="margin: 1rem auto 0; text-align: center;">
+        A collective of architects, designers, and strategists united by a shared obsession with excellence.
+      </p>
+    </div>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-card-img">
+          <div class="team-avatar-placeholder">
+            <span class="team-avatar-initials">NS</span>
+          </div>
+        </div>
+        <div class="team-card-info">
+          <div class="team-name">Nadia Saleh</div>
+          <div class="team-role">Principal Architect</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-card-img">
+          <div class="team-avatar-placeholder">
+            <span class="team-avatar-initials">KA</span>
+          </div>
+        </div>
+        <div class="team-card-info">
+          <div class="team-name">Karim Al-Hassan</div>
+          <div class="team-role">Design Director</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-card-img">
+          <div class="team-avatar-placeholder">
+            <span class="team-avatar-initials">LM</span>
+          </div>
+        </div>
+        <div class="team-card-info">
+          <div class="team-name">Layla Mansour</div>
+          <div class="team-role">Interior Architecture Lead</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-card-img">
+          <div class="team-avatar-placeholder">
+            <span class="team-avatar-initials">JR</span>
+          </div>
+        </div>
+        <div class="team-card-info">
+          <div class="team-name">Jonas Richter</div>
+          <div class="team-role">Structural Consultant</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CONTACT SECTION
+  ══════════════════════════════════════════ -->
+  <section id="contact" class="section-pad" aria-labelledby="contact-heading">
+    <canvas id="contact-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.35;pointer-events:none;"></canvas>
+    <div class="contact-inner">
+      <div class="contact-left">
+        <p class="section-label">Get in Touch</p>
+        <h2 class="section-headline" id="contact-heading">
+          Let's Build<br><em>Together</em>
+        </h2>
+
+        <div class="contact-info-items" style="margin-top: 3rem;">
+          <div class="contact-info-item">
+            <svg class="contact-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <div>
+              <div class="contact-info-label">Studio</div>
+              <div class="contact-info-value">1 Design Quarter, Dubai, UAE</div>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <svg class="contact-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value">hello@leapdesign.com</div>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <svg class="contact-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.19 2 2 0 012 .01h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92v2z"/>
+            </svg>
+            <div>
+              <div class="contact-info-label">Phone</div>
+              <div class="contact-info-value">+971 4 000 0000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-group">
+          <input type="text" class="form-input" id="form-name" name="name" placeholder="Your name" autocomplete="name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-input" id="form-email" name="email" placeholder="Email address" autocomplete="email" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-input" id="form-project" name="project" placeholder="Project type (residential, commercial…)">
+        </div>
+        <div class="form-group">
+          <textarea class="form-textarea" id="form-message" name="message" placeholder="Tell us about your vision…" required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="form-submit-btn">
+          <span>Send Message</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-logo">LEAP<span>.</span></div>
+    <p class="footer-copy">© 2024 Leap Agency. All rights reserved.</p>
+    <nav class="footer-socials" aria-label="Social media links">
+      <a href="#" id="footer-instagram">Instagram</a>
+      <a href="#" id="footer-linkedin">LinkedIn</a>
+      <a href="#" id="footer-behance">Behance</a>
+    </nav>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+  <script src="js/particles.js"></script>
+  <script src="js/scroll-particles.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
