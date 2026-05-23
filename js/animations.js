@@ -52,14 +52,6 @@ class AnimationController {
   setupHeroAnimations() {
     const tl = this.gsap.timeline({ delay: 2.2 });
 
-    // Eyebrow
-    tl.to('.hero-eyebrow', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'power3.out'
-    });
-
     // Title lines stagger
     tl.to('.hero-title .line-inner', {
       y: 0,
